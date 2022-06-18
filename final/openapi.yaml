@@ -1,0 +1,137 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /find-answer:
+        post:
+            tags:
+                - Homework
+            description: 获取答案
+            operationId: Homework_FindDetailSolution
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/homework.v1.FindDetailSolutionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/homework.v1.FindDetailSolutionReply'
+    /helloworld/{name}:
+        get:
+            tags:
+                - Greeter
+            description: Sends a greeting
+            operationId: Greeter_SayHello
+            parameters:
+                - name: name
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+    /records/{userId}:
+        get:
+            tags:
+                - Homework
+            description: 搜索记录列表
+            operationId: Homework_GetRecords
+            parameters:
+                - name: userId
+                  in: path
+                  description: 用户ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/homework.v1.GetRecordsReply'
+components:
+    schemas:
+        helloworld.v1.HelloReply:
+            type: object
+            properties:
+                message:
+                    type: string
+            description: The response message containing the greetings
+        homework.v1.FindDetailSolutionReply:
+            type: object
+            properties:
+                input:
+                    type: string
+                    description: 输入题目
+                solution:
+                    type: string
+                    description: 答案
+                steps:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/homework.v1.FindDetailSolutionReply_Step'
+                    description: 步骤列表
+                knowledge:
+                    type: integer
+                    description: 知识点
+                    format: int32
+        homework.v1.FindDetailSolutionReply_Step:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 步骤名称
+                output:
+                    type: string
+                    description: 步骤结果
+            description: 步骤
+        homework.v1.FindDetailSolutionRequest:
+            type: object
+            properties:
+                content:
+                    type: string
+                    description: 题目内容
+                fileUrl:
+                    type: string
+                    description: 题目图片链接
+                userId:
+                    type: integer
+                    description: 用户ID
+                    format: int64
+        homework.v1.GetRecordsReply:
+            type: object
+            properties:
+                records:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/homework.v1.GetRecordsReply_Record'
+        homework.v1.GetRecordsReply_Record:
+            type: object
+            properties:
+                content:
+                    type: string
+                    description: 题目内容
+                detailSolution:
+                    type: string
+                    description: 答案
+tags:
+    - name: Greeter
+      description: The greeting service definition.
+    - name: Homework
+      description: BFF

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package homework.v1;
+
+option go_package = "final/api/homework/v1;v1";
+option objc_class_prefix = "APIHomeworkV1";
+
+enum ErrorReason {
+    UNSPECIFIED = 0;
+    NO_RESULT = 1;
+}

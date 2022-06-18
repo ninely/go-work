@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package operation.v1;
+
+option go_package = "final/api/operation/v1;v1";
+
+// 题目运算
+service Operation {
+    // 执行运算
+    rpc Operate (OperateRequest) returns (OperateReply) {}
+}
+
+message OperateRequest {
+    // 题目内容
+    string content = 1;
+    // 知识点
+    int32 knowledge = 2;
+}
+
+message OperateReply {
+    // 步骤
+    message Step {
+        // 步骤名称
+        string name = 1;
+        // 步骤结果
+        string output = 2;
+    }
+    // 答案
+    string solution = 2;
+    // 步骤列表
+    repeated Step steps = 3;
+}

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package parse.v1;
+
+option go_package = "final/api/parse/v1;v1";
+
+// 自动解题
+service Solve {
+    // 获取答案
+    rpc SolveQuestion (SolveQuestionRequest) returns (SolveQuestionReply) {}
+    // 更新题目结果
+    rpc UpdateDetailSolution (UpdateDetailSolutionRequest) returns (UpdateDetailSolutionReply) {}
+}
+
+message SolveQuestionRequest {
+    // 题目内容
+    string content = 1;
+    // 题目图片链接
+    string file_url = 2;
+}
+
+message SolveQuestionReply {
+    // 步骤
+    message Step {
+        // 步骤名称
+        string name = 1;
+        // 步骤结果
+        string output = 2;
+    }
+    // 输入题目
+    string input = 1;
+    // 答案
+    string solution = 2;
+    // 步骤列表
+    repeated Step steps = 3;
+    // 知识点
+    int32 knowledge = 4;
+}
+
+message UpdateDetailSolutionRequest {
+    // 题目ID
+    string id = 1;
+    // 题目结果
+    string detail_solution = 2;
+}
+
+message UpdateDetailSolutionReply {}

@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package homework.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "final/api/homework/v1;v1";
+
+// BFF
+service Homework {
+    // 获取答案
+    rpc FindDetailSolution (FindDetailSolutionRequest) returns (FindDetailSolutionReply) {
+        option (google.api.http) = {
+            post: "/find-answer"
+            body: "*"
+        };
+    }
+    // 搜索记录列表
+    rpc GetRecords (GetRecordsRequest) returns (GetRecordsReply) {
+        option (google.api.http) = {
+            get: "/records/{user_id}"
+        };
+    }
+}
+
+message FindDetailSolutionRequest {
+    // 题目内容
+    string content = 1;
+    // 题目图片链接
+    string file_url = 2;
+    // 用户ID
+    int64 user_id = 3;
+}
+
+message FindDetailSolutionReply {
+    // 步骤
+    message Step {
+        // 步骤名称
+        string name = 1;
+        // 步骤结果
+        string output = 2;
+    }
+    // 输入题目
+    string input = 1;
+    // 答案
+    string solution = 2;
+    // 步骤列表
+    repeated Step steps = 3;
+    // 知识点
+    int32 knowledge = 4;
+}
+
+message GetRecordsRequest {
+    // 用户ID
+    int64 user_id = 1;
+}
+
+message GetRecordsReply {
+    message Record {
+        // 题目内容
+        string content = 1;
+        // 答案
+        string detail_solution = 2;
+    }
+    repeated Record records = 1;
+}
+

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package search.v1;
+
+option go_package = "final/api/search/v1;v1";
+
+// 题库搜索服务
+service Search {
+    // 题库搜索
+    rpc SearchQuestion (SearchQuestionRequest) returns (SearchQuestionReply) {}
+}
+
+message SearchQuestionRequest {
+    // 题目图片链接
+    string file_url = 1;
+}
+
+message SearchQuestionReply {
+    // 搜索结果
+    string detail_solution = 1;
+}
