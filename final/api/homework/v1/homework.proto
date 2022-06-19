@@ -9,7 +9,7 @@ option go_package = "final/api/homework/v1;v1";
 // BFF
 service Homework {
     // 获取答案
-    rpc FindDetailSolution (FindDetailSolutionRequest) returns (FindDetailSolutionReply) {
+    rpc FindSolution (FindSolutionRequest) returns (FindSolutionReply) {
         option (google.api.http) = {
             post: "/find-answer"
             body: "*"
@@ -23,16 +23,21 @@ service Homework {
     }
 }
 
-message FindDetailSolutionRequest {
+message FindSolutionRequest {
     // 题目内容
     string content = 1;
     // 题目图片链接
     string file_url = 2;
     // 用户ID
-    int64 user_id = 3;
+    uint64 user_id = 3;
 }
 
-message FindDetailSolutionReply {
+message FindSolutionReply {
+    SolveSolution solve_solution = 1;
+    string search_solution = 2;
+}
+
+message SolveSolution {
     // 步骤
     message Step {
         // 步骤名称
@@ -52,15 +57,28 @@ message FindDetailSolutionReply {
 
 message GetRecordsRequest {
     // 用户ID
-    int64 user_id = 1;
+    uint64 user_id = 1;
 }
 
 message GetRecordsReply {
-    message Record {
+    message Question {
         // 题目内容
         string content = 1;
-        // 答案
-        string detail_solution = 2;
+        // 题目图片链接
+        string file_url = 2;
+    }
+
+    message Solution {
+        // 搜索结果
+        string search_solution = 1;
+        // 解题结果
+        string solve_solution = 2;
+    }
+
+    message Record {
+        Question question = 1;
+        Solution solution = 2;
+
     }
     repeated Record records = 1;
 }

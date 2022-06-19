@@ -3,7 +3,8 @@
 
 openapi: 3.0.3
 info:
-    title: ""
+    title: Homework API
+    description: BFF
     version: 0.0.1
 paths:
     /find-answer:
@@ -11,12 +12,12 @@ paths:
             tags:
                 - Homework
             description: 获取答案
-            operationId: Homework_FindDetailSolution
+            operationId: Homework_FindSolution
             requestBody:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/homework.v1.FindDetailSolutionRequest'
+                            $ref: '#/components/schemas/homework.v1.FindSolutionRequest'
                 required: true
             responses:
                 "200":
@@ -24,26 +25,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/homework.v1.FindDetailSolutionReply'
-    /helloworld/{name}:
-        get:
-            tags:
-                - Greeter
-            description: Sends a greeting
-            operationId: Greeter_SayHello
-            parameters:
-                - name: name
-                  in: path
-                  required: true
-                  schema:
-                    type: string
-            responses:
-                "200":
-                    description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/helloworld.v1.HelloReply'
+                                $ref: '#/components/schemas/homework.v1.FindSolutionReply'
     /records/{userId}:
         get:
             tags:
@@ -57,7 +39,7 @@ paths:
                   required: true
                   schema:
                     type: integer
-                    format: int64
+                    format: uint64
             responses:
                 "200":
                     description: OK
@@ -67,41 +49,14 @@ paths:
                                 $ref: '#/components/schemas/homework.v1.GetRecordsReply'
 components:
     schemas:
-        helloworld.v1.HelloReply:
+        homework.v1.FindSolutionReply:
             type: object
             properties:
-                message:
+                solveSolution:
+                    $ref: '#/components/schemas/homework.v1.SolveSolution'
+                searchSolution:
                     type: string
-            description: The response message containing the greetings
-        homework.v1.FindDetailSolutionReply:
-            type: object
-            properties:
-                input:
-                    type: string
-                    description: 输入题目
-                solution:
-                    type: string
-                    description: 答案
-                steps:
-                    type: array
-                    items:
-                        $ref: '#/components/schemas/homework.v1.FindDetailSolutionReply_Step'
-                    description: 步骤列表
-                knowledge:
-                    type: integer
-                    description: 知识点
-                    format: int32
-        homework.v1.FindDetailSolutionReply_Step:
-            type: object
-            properties:
-                name:
-                    type: string
-                    description: 步骤名称
-                output:
-                    type: string
-                    description: 步骤结果
-            description: 步骤
-        homework.v1.FindDetailSolutionRequest:
+        homework.v1.FindSolutionRequest:
             type: object
             properties:
                 content:
@@ -113,7 +68,7 @@ components:
                 userId:
                     type: integer
                     description: 用户ID
-                    format: int64
+                    format: uint64
         homework.v1.GetRecordsReply:
             type: object
             properties:
@@ -121,17 +76,58 @@ components:
                     type: array
                     items:
                         $ref: '#/components/schemas/homework.v1.GetRecordsReply_Record'
-        homework.v1.GetRecordsReply_Record:
+        homework.v1.GetRecordsReply_Question:
             type: object
             properties:
                 content:
                     type: string
                     description: 题目内容
-                detailSolution:
+                fileUrl:
+                    type: string
+                    description: 题目图片链接
+        homework.v1.GetRecordsReply_Record:
+            type: object
+            properties:
+                question:
+                    $ref: '#/components/schemas/homework.v1.GetRecordsReply_Question'
+                solution:
+                    $ref: '#/components/schemas/homework.v1.GetRecordsReply_Solution'
+        homework.v1.GetRecordsReply_Solution:
+            type: object
+            properties:
+                searchSolution:
+                    type: string
+                    description: 搜索结果
+                solveSolution:
+                    type: string
+                    description: 解题结果
+        homework.v1.SolveSolution:
+            type: object
+            properties:
+                input:
+                    type: string
+                    description: 输入题目
+                solution:
                     type: string
                     description: 答案
+                steps:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/homework.v1.SolveSolution_Step'
+                    description: 步骤列表
+                knowledge:
+                    type: integer
+                    description: 知识点
+                    format: int32
+        homework.v1.SolveSolution_Step:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 步骤名称
+                output:
+                    type: string
+                    description: 步骤结果
+            description: 步骤
 tags:
-    - name: Greeter
-      description: The greeting service definition.
     - name: Homework
-      description: BFF

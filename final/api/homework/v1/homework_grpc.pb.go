@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type HomeworkClient interface {
 	// 获取答案
-	FindDetailSolution(ctx context.Context, in *FindDetailSolutionRequest, opts ...grpc.CallOption) (*FindDetailSolutionReply, error)
+	FindSolution(ctx context.Context, in *FindSolutionRequest, opts ...grpc.CallOption) (*FindSolutionReply, error)
 	// 搜索记录列表
 	GetRecords(ctx context.Context, in *GetRecordsRequest, opts ...grpc.CallOption) (*GetRecordsReply, error)
 }
@@ -36,9 +36,9 @@ func NewHomeworkClient(cc grpc.ClientConnInterface) HomeworkClient {
 	return &homeworkClient{cc}
 }
 
-func (c *homeworkClient) FindDetailSolution(ctx context.Context, in *FindDetailSolutionRequest, opts ...grpc.CallOption) (*FindDetailSolutionReply, error) {
-	out := new(FindDetailSolutionReply)
-	err := c.cc.Invoke(ctx, "/homework.v1.Homework/FindDetailSolution", in, out, opts...)
+func (c *homeworkClient) FindSolution(ctx context.Context, in *FindSolutionRequest, opts ...grpc.CallOption) (*FindSolutionReply, error) {
+	out := new(FindSolutionReply)
+	err := c.cc.Invoke(ctx, "/homework.v1.Homework/FindSolution", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func (c *homeworkClient) GetRecords(ctx context.Context, in *GetRecordsRequest, 
 // for forward compatibility
 type HomeworkServer interface {
 	// 获取答案
-	FindDetailSolution(context.Context, *FindDetailSolutionRequest) (*FindDetailSolutionReply, error)
+	FindSolution(context.Context, *FindSolutionRequest) (*FindSolutionReply, error)
 	// 搜索记录列表
 	GetRecords(context.Context, *GetRecordsRequest) (*GetRecordsReply, error)
 	mustEmbedUnimplementedHomeworkServer()
@@ -69,8 +69,8 @@ type HomeworkServer interface {
 type UnimplementedHomeworkServer struct {
 }
 
-func (UnimplementedHomeworkServer) FindDetailSolution(context.Context, *FindDetailSolutionRequest) (*FindDetailSolutionReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FindDetailSolution not implemented")
+func (UnimplementedHomeworkServer) FindSolution(context.Context, *FindSolutionRequest) (*FindSolutionReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FindSolution not implemented")
 }
 func (UnimplementedHomeworkServer) GetRecords(context.Context, *GetRecordsRequest) (*GetRecordsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRecords not implemented")
@@ -88,20 +88,20 @@ func RegisterHomeworkServer(s grpc.ServiceRegistrar, srv HomeworkServer) {
 	s.RegisterService(&Homework_ServiceDesc, srv)
 }
 
-func _Homework_FindDetailSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FindDetailSolutionRequest)
+func _Homework_FindSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FindSolutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(HomeworkServer).FindDetailSolution(ctx, in)
+		return srv.(HomeworkServer).FindSolution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/homework.v1.Homework/FindDetailSolution",
+		FullMethod: "/homework.v1.Homework/FindSolution",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(HomeworkServer).FindDetailSolution(ctx, req.(*FindDetailSolutionRequest))
+		return srv.(HomeworkServer).FindSolution(ctx, req.(*FindSolutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -132,8 +132,8 @@ var Homework_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*HomeworkServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "FindDetailSolution",
-			Handler:    _Homework_FindDetailSolution_Handler,
+			MethodName: "FindSolution",
+			Handler:    _Homework_FindSolution_Handler,
 		},
 		{
 			MethodName: "GetRecords",

@@ -17,35 +17,35 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-const OperationHomeworkFindDetailSolution = "/homework.v1.Homework/FindDetailSolution"
+const OperationHomeworkFindSolution = "/homework.v1.Homework/FindSolution"
 const OperationHomeworkGetRecords = "/homework.v1.Homework/GetRecords"
 
 type HomeworkHTTPServer interface {
-	FindDetailSolution(context.Context, *FindDetailSolutionRequest) (*FindDetailSolutionReply, error)
+	FindSolution(context.Context, *FindSolutionRequest) (*FindSolutionReply, error)
 	GetRecords(context.Context, *GetRecordsRequest) (*GetRecordsReply, error)
 }
 
 func RegisterHomeworkHTTPServer(s *http.Server, srv HomeworkHTTPServer) {
 	r := s.Route("/")
-	r.POST("/find-answer", _Homework_FindDetailSolution0_HTTP_Handler(srv))
+	r.POST("/find-answer", _Homework_FindSolution0_HTTP_Handler(srv))
 	r.GET("/records/{user_id}", _Homework_GetRecords0_HTTP_Handler(srv))
 }
 
-func _Homework_FindDetailSolution0_HTTP_Handler(srv HomeworkHTTPServer) func(ctx http.Context) error {
+func _Homework_FindSolution0_HTTP_Handler(srv HomeworkHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in FindDetailSolutionRequest
+		var in FindSolutionRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, OperationHomeworkFindDetailSolution)
+		http.SetOperation(ctx, OperationHomeworkFindSolution)
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.FindDetailSolution(ctx, req.(*FindDetailSolutionRequest))
+			return srv.FindSolution(ctx, req.(*FindSolutionRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*FindDetailSolutionReply)
+		reply := out.(*FindSolutionReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -73,7 +73,7 @@ func _Homework_GetRecords0_HTTP_Handler(srv HomeworkHTTPServer) func(ctx http.Co
 }
 
 type HomeworkHTTPClient interface {
-	FindDetailSolution(ctx context.Context, req *FindDetailSolutionRequest, opts ...http.CallOption) (rsp *FindDetailSolutionReply, err error)
+	FindSolution(ctx context.Context, req *FindSolutionRequest, opts ...http.CallOption) (rsp *FindSolutionReply, err error)
 	GetRecords(ctx context.Context, req *GetRecordsRequest, opts ...http.CallOption) (rsp *GetRecordsReply, err error)
 }
 
@@ -85,11 +85,11 @@ func NewHomeworkHTTPClient(client *http.Client) HomeworkHTTPClient {
 	return &HomeworkHTTPClientImpl{client}
 }
 
-func (c *HomeworkHTTPClientImpl) FindDetailSolution(ctx context.Context, in *FindDetailSolutionRequest, opts ...http.CallOption) (*FindDetailSolutionReply, error) {
-	var out FindDetailSolutionReply
+func (c *HomeworkHTTPClientImpl) FindSolution(ctx context.Context, in *FindSolutionRequest, opts ...http.CallOption) (*FindSolutionReply, error) {
+	var out FindSolutionReply
 	pattern := "/find-answer"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation(OperationHomeworkFindDetailSolution))
+	opts = append(opts, http.Operation(OperationHomeworkFindSolution))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {

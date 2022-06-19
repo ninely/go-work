@@ -24,7 +24,7 @@ const _ = grpc.SupportPackageIsVersion7
 type RecordClient interface {
 	GetRecords(ctx context.Context, in *GetRecordsRequest, opts ...grpc.CallOption) (*GetRecordsReply, error)
 	CreateRecord(ctx context.Context, in *CreateRecordRequest, opts ...grpc.CallOption) (*CreateRecordReply, error)
-	UpdateRecordDetailSolution(ctx context.Context, in *UpdateRecordDetailSolutionRequest, opts ...grpc.CallOption) (*UpdateRecordDetailSolutionReply, error)
+	UpdateRecordSolution(ctx context.Context, in *UpdateRecordSolutionRequest, opts ...grpc.CallOption) (*UpdateRecordSolutionReply, error)
 }
 
 type recordClient struct {
@@ -53,9 +53,9 @@ func (c *recordClient) CreateRecord(ctx context.Context, in *CreateRecordRequest
 	return out, nil
 }
 
-func (c *recordClient) UpdateRecordDetailSolution(ctx context.Context, in *UpdateRecordDetailSolutionRequest, opts ...grpc.CallOption) (*UpdateRecordDetailSolutionReply, error) {
-	out := new(UpdateRecordDetailSolutionReply)
-	err := c.cc.Invoke(ctx, "/parse.v1.Record/UpdateRecordDetailSolution", in, out, opts...)
+func (c *recordClient) UpdateRecordSolution(ctx context.Context, in *UpdateRecordSolutionRequest, opts ...grpc.CallOption) (*UpdateRecordSolutionReply, error) {
+	out := new(UpdateRecordSolutionReply)
+	err := c.cc.Invoke(ctx, "/parse.v1.Record/UpdateRecordSolution", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,7 +68,7 @@ func (c *recordClient) UpdateRecordDetailSolution(ctx context.Context, in *Updat
 type RecordServer interface {
 	GetRecords(context.Context, *GetRecordsRequest) (*GetRecordsReply, error)
 	CreateRecord(context.Context, *CreateRecordRequest) (*CreateRecordReply, error)
-	UpdateRecordDetailSolution(context.Context, *UpdateRecordDetailSolutionRequest) (*UpdateRecordDetailSolutionReply, error)
+	UpdateRecordSolution(context.Context, *UpdateRecordSolutionRequest) (*UpdateRecordSolutionReply, error)
 	mustEmbedUnimplementedRecordServer()
 }
 
@@ -82,8 +82,8 @@ func (UnimplementedRecordServer) GetRecords(context.Context, *GetRecordsRequest)
 func (UnimplementedRecordServer) CreateRecord(context.Context, *CreateRecordRequest) (*CreateRecordReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRecord not implemented")
 }
-func (UnimplementedRecordServer) UpdateRecordDetailSolution(context.Context, *UpdateRecordDetailSolutionRequest) (*UpdateRecordDetailSolutionReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRecordDetailSolution not implemented")
+func (UnimplementedRecordServer) UpdateRecordSolution(context.Context, *UpdateRecordSolutionRequest) (*UpdateRecordSolutionReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRecordSolution not implemented")
 }
 func (UnimplementedRecordServer) mustEmbedUnimplementedRecordServer() {}
 
@@ -134,20 +134,20 @@ func _Record_CreateRecord_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Record_UpdateRecordDetailSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateRecordDetailSolutionRequest)
+func _Record_UpdateRecordSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateRecordSolutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RecordServer).UpdateRecordDetailSolution(ctx, in)
+		return srv.(RecordServer).UpdateRecordSolution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/parse.v1.Record/UpdateRecordDetailSolution",
+		FullMethod: "/parse.v1.Record/UpdateRecordSolution",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RecordServer).UpdateRecordDetailSolution(ctx, req.(*UpdateRecordDetailSolutionRequest))
+		return srv.(RecordServer).UpdateRecordSolution(ctx, req.(*UpdateRecordSolutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -168,8 +168,8 @@ var Record_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Record_CreateRecord_Handler,
 		},
 		{
-			MethodName: "UpdateRecordDetailSolution",
-			Handler:    _Record_UpdateRecordDetailSolution_Handler,
+			MethodName: "UpdateRecordSolution",
+			Handler:    _Record_UpdateRecordSolution_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

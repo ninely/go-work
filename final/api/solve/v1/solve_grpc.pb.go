@@ -25,7 +25,7 @@ type SolveClient interface {
 	// 获取答案
 	SolveQuestion(ctx context.Context, in *SolveQuestionRequest, opts ...grpc.CallOption) (*SolveQuestionReply, error)
 	// 更新题目结果
-	UpdateDetailSolution(ctx context.Context, in *UpdateDetailSolutionRequest, opts ...grpc.CallOption) (*UpdateDetailSolutionReply, error)
+	UpdateSolveSolution(ctx context.Context, in *UpdateSolveSolutionRequest, opts ...grpc.CallOption) (*UpdateSolveSolutionReply, error)
 }
 
 type solveClient struct {
@@ -45,9 +45,9 @@ func (c *solveClient) SolveQuestion(ctx context.Context, in *SolveQuestionReques
 	return out, nil
 }
 
-func (c *solveClient) UpdateDetailSolution(ctx context.Context, in *UpdateDetailSolutionRequest, opts ...grpc.CallOption) (*UpdateDetailSolutionReply, error) {
-	out := new(UpdateDetailSolutionReply)
-	err := c.cc.Invoke(ctx, "/parse.v1.Solve/UpdateDetailSolution", in, out, opts...)
+func (c *solveClient) UpdateSolveSolution(ctx context.Context, in *UpdateSolveSolutionRequest, opts ...grpc.CallOption) (*UpdateSolveSolutionReply, error) {
+	out := new(UpdateSolveSolutionReply)
+	err := c.cc.Invoke(ctx, "/parse.v1.Solve/UpdateSolveSolution", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ type SolveServer interface {
 	// 获取答案
 	SolveQuestion(context.Context, *SolveQuestionRequest) (*SolveQuestionReply, error)
 	// 更新题目结果
-	UpdateDetailSolution(context.Context, *UpdateDetailSolutionRequest) (*UpdateDetailSolutionReply, error)
+	UpdateSolveSolution(context.Context, *UpdateSolveSolutionRequest) (*UpdateSolveSolutionReply, error)
 	mustEmbedUnimplementedSolveServer()
 }
 
@@ -72,8 +72,8 @@ type UnimplementedSolveServer struct {
 func (UnimplementedSolveServer) SolveQuestion(context.Context, *SolveQuestionRequest) (*SolveQuestionReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SolveQuestion not implemented")
 }
-func (UnimplementedSolveServer) UpdateDetailSolution(context.Context, *UpdateDetailSolutionRequest) (*UpdateDetailSolutionReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateDetailSolution not implemented")
+func (UnimplementedSolveServer) UpdateSolveSolution(context.Context, *UpdateSolveSolutionRequest) (*UpdateSolveSolutionReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSolveSolution not implemented")
 }
 func (UnimplementedSolveServer) mustEmbedUnimplementedSolveServer() {}
 
@@ -106,20 +106,20 @@ func _Solve_SolveQuestion_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Solve_UpdateDetailSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateDetailSolutionRequest)
+func _Solve_UpdateSolveSolution_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSolveSolutionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SolveServer).UpdateDetailSolution(ctx, in)
+		return srv.(SolveServer).UpdateSolveSolution(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/parse.v1.Solve/UpdateDetailSolution",
+		FullMethod: "/parse.v1.Solve/UpdateSolveSolution",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SolveServer).UpdateDetailSolution(ctx, req.(*UpdateDetailSolutionRequest))
+		return srv.(SolveServer).UpdateSolveSolution(ctx, req.(*UpdateSolveSolutionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -136,8 +136,8 @@ var Solve_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Solve_SolveQuestion_Handler,
 		},
 		{
-			MethodName: "UpdateDetailSolution",
-			Handler:    _Solve_UpdateDetailSolution_Handler,
+			MethodName: "UpdateSolveSolution",
+			Handler:    _Solve_UpdateSolveSolution_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

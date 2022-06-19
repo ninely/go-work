@@ -9,7 +9,7 @@ service Solve {
     // 获取答案
     rpc SolveQuestion (SolveQuestionRequest) returns (SolveQuestionReply) {}
     // 更新题目结果
-    rpc UpdateDetailSolution (UpdateDetailSolutionRequest) returns (UpdateDetailSolutionReply) {}
+    rpc UpdateSolveSolution (UpdateSolveSolutionRequest) returns (UpdateSolveSolutionReply) {}
 }
 
 message SolveQuestionRequest {
@@ -37,11 +37,11 @@ message SolveQuestionReply {
     int32 knowledge = 4;
 }
 
-message UpdateDetailSolutionRequest {
+message UpdateSolveSolutionRequest {
     // 题目ID
     string id = 1;
     // 题目结果
     string detail_solution = 2;
 }
 
-message UpdateDetailSolutionReply {}
+message UpdateSolveSolutionReply {}

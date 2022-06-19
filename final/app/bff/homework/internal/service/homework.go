@@ -18,17 +18,20 @@ func NewHomeworkService(uc *biz.HomeworkUseCase) *HomeworkService {
 }
 
 func (s *HomeworkService) GetRecords(ctx context.Context, in *v1.GetRecordsRequest) (*v1.GetRecordsReply, error) {
-	_, err := s.uc.GetRecords(ctx, &biz.Homework{})
+	_, err := s.uc.GetRecords(ctx, in.GetUserId())
 	if err != nil {
 		return nil, err
 	}
 	return &v1.GetRecordsReply{}, nil
 }
 
-func (s *HomeworkService) FindDetailSolution(ctx context.Context, in *v1.FindDetailSolutionRequest) (*v1.FindDetailSolutionReply, error) {
-	_, err := s.uc.FindDetailSolution(ctx, &biz.Homework{})
+func (s *HomeworkService) FindDetailSolution(ctx context.Context, in *v1.FindSolutionRequest) (*v1.FindSolutionReply, error) {
+	_, err := s.uc.FindSolution(ctx, in.GetUserId(), &biz.Question{
+		Content: in.Content,
+		FileUrl: in.FileUrl,
+	})
 	if err != nil {
 		return nil, err
 	}
-	return &v1.FindDetailSolutionReply{}, nil
+	return &v1.FindSolutionReply{}, nil
 }
