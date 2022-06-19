@@ -6,14 +6,14 @@
 package main
 
 import (
-	"final/internal/biz"
-	"final/internal/conf"
-	"final/internal/data"
-	"final/internal/server"
-	"final/internal/service"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
+	"github.com/ninely/go-work/final/app/bff/homework/internal/biz"
+	"github.com/ninely/go-work/final/app/bff/homework/internal/conf"
+	"github.com/ninely/go-work/final/app/bff/homework/internal/data"
+	"github.com/ninely/go-work/final/app/bff/homework/internal/server"
+	"github.com/ninely/go-work/final/app/bff/homework/internal/service"
 )
 
 // wireApp init kratos application.
